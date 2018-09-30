@@ -249,7 +249,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="cquzg.github.io/2018/09/11/code/">
+    <link itemprop="mainEntityOfPage" href="cquzg.github.io/2018/09/30/[HNOI2008] GT考试/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="CQUZG">
@@ -268,7 +268,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/09/11/code/" itemprop="url">Code</a></h1>
+                <a class="post-title-link" href="/2018/09/30/[HNOI2008] GT考试/" itemprop="url">未命名</a></h1>
         
 
         <div class="post-meta">
@@ -280,8 +280,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-11T20:50:48+08:00">
-                2018-09-11
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-30T12:13:09+08:00">
+                2018-09-30
               </time>
             
 
@@ -320,7 +320,10 @@
       
         
           
-            <h1 id="GDY"><a href="#GDY" class="headerlink" title="GDY"></a>GDY</h1><p>题解: 模拟</p>
+            <h1 id="HNOI2008-GT考试"><a href="#HNOI2008-GT考试" class="headerlink" title="[HNOI2008] GT考试"></a>[HNOI2008] GT考试</h1><p>标签（空格分隔）： KMP DP</p>
+<hr>
+<p>#题意<br>有一个长度为$n$$(n\le1e^9)$只由阿拉伯数字组成的串$A$，现在给一个长度为$m$$(m\le20)$同样只由阿拉伯数字组成的串$B$，求满足条件的$A$串个数，条件：$B$串不包含在$A$串。</p>
+<p>#题解<br>$dp[i][j]=$长度为$i$且末尾（后缀）已经与$B$串首部（前缀）匹配了$j$位的满足<strong>条件</strong>的串的方案数。则：$$dp[i][j] = \sum_{k = 0}^{m - 1}dp[i - 1][k]<em>a[k][j]$$ $a[k][j]=$ 已经匹配了$k$位现在再加一个数字而能匹配$j$位的方案数。比如$B$串为$12315$，$a[1][1] = 1$就是$1 + ?$能与$12315$匹配$1$位的方案数是1的$?$的取值个数（$? = 1$)。这里讲的<strong>匹配</strong>是指$1?$的后缀与$12315$的前缀相同的串的长度。$$a =<br>\begin{pmatrix}<br>9 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \<br>8 &amp; 1 &amp; 1 &amp; 0 &amp; 0 &amp; 0 \<br>8 &amp; 1 &amp; 0 &amp; 1 &amp; 0 &amp; 0 \<br>9 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 \<br>7 &amp; 1 &amp; 1 &amp; 0 &amp; 0 &amp; 1<br>\end{pmatrix}$$行代表$k$，列代表$j$。如何求出$a$数组？既然是在求公共的前缀和后缀，故联想到$KMP$的$Next$数组。具体做法见代码。观察上面的转移方程，系数都是常数且是一次方程，自然而然的转化为矩阵的乘积形式。$$<br>\begin{pmatrix}<br>dp[i][0] &amp; \dots &amp; dp[i][m - 1]<br>\end{pmatrix}=<br>\begin{pmatrix}<br>dp[i - 1][0] &amp; \dots &amp; dp[i - 1][m - 1]<br>\end{pmatrix}</em><br>\begin{pmatrix}<br>9 &amp; 1 &amp; 0 &amp; 0 &amp; 0 \<br>8 &amp; 1 &amp; 1 &amp; 0 &amp; 0 \<br>8 &amp; 1 &amp; 0 &amp; 1 &amp; 0 \<br>9 &amp; 0 &amp; 0 &amp; 0 &amp; 1 \<br>7 &amp; 1 &amp; 1 &amp; 0 &amp; 0<br>\end{pmatrix}<br>$$因为是求不包含$B$串的A串个数，故$a$矩阵的最后一列应该忽略。</p>
 
           
         
