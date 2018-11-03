@@ -322,8 +322,27 @@
           
             <h1 id="HNOI2008-GT考试"><a href="#HNOI2008-GT考试" class="headerlink" title="[HNOI2008] GT考试"></a>[HNOI2008] GT考试</h1><p>标签（空格分隔）： KMP DP</p>
 <hr>
-<h1 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h1><p>有一个长度为$ n $$ (n \le 1e^9) $只由阿拉伯数字组成的串$A$，现在给一个长度为$m$$(m\le20)$同样只由阿拉伯数字组成的串$B$，求满足条件的$A$串个数，条件：$B$串不包含在$A$串。</p>
-<h1 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h1><p>$dp[i][j]=$长度为$i$且末尾（后缀）已经与$B$串首部（前缀）匹配了$j$位的满足<strong>条件</strong>的串的方案数。则：$$dp[i][j] = \sum_{k = 0}^{m - 1}dp[i - 1][k]<em>a[k][j]$$ $a[k][j]=$ 已经匹配了$k$位现在再加一个数字而能匹配$j$位的方案数。比如$B$串为$12315$，$a[1][1] = 1$就是$1 + ?$能与$12315$匹配$1$位的方案数是1的$?$的取值个数（$? = 1$)。这里讲的<strong>匹配</strong>是指$1?$的后缀与$12315$的前缀相同的串的长度。$$a =<br>\begin{pmatrix}<br>9 &amp; 1 &amp; 0 &amp; 0 &amp; 0 &amp; 0 \<br>8 &amp; 1 &amp; 1 &amp; 0 &amp; 0 &amp; 0 \<br>8 &amp; 1 &amp; 0 &amp; 1 &amp; 0 &amp; 0 \<br>9 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 \<br>7 &amp; 1 &amp; 1 &amp; 0 &amp; 0 &amp; 1<br>\end{pmatrix}$$行代表$k$，列代表$j$。如何求出$a$数组？既然是在求公共的前缀和后缀，故联想到$KMP$的$Next$数组。具体做法见代码。观察上面的转移方程，系数都是常数且是一次方程，自然而然的转化为矩阵的乘积形式。$$\begin{pmatrix}<br>dp[i][0] &amp; \dots &amp; dp[i][m - 1]<br>\end{pmatrix}=<br>\begin{pmatrix}<br>dp[i - 1][0] &amp; \dots &amp; dp[i - 1][m - 1]<br>\end{pmatrix}</em><br>\begin{pmatrix}<br>9 &amp; 1 &amp; 0 &amp; 0 &amp; 0 \<br>8 &amp; 1 &amp; 1 &amp; 0 &amp; 0 \<br>8 &amp; 1 &amp; 0 &amp; 1 &amp; 0 \<br>9 &amp; 0 &amp; 0 &amp; 0 &amp; 1 \<br>7 &amp; 1 &amp; 1 &amp; 0 &amp; 0<br>\end{pmatrix}$$因为是求不包含$B$串的A串个数，故$a$矩阵的最后一列应该忽略。</p>
+<h1 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h1><p>有一个长度为$ n <script type="math/tex">(n \le 1e^9) $只由阿拉伯数字组成的串$A$，现在给一个长度为$m</script>(m\le20)$同样只由阿拉伯数字组成的串$B$，求满足条件的$A$串个数，条件：$B$串不包含在$A$串。</p>
+<h1 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h1><p>$dp[i][j]=$长度为$i$且末尾（后缀）已经与$B$串首部（前缀）匹配了$j$位的满足<strong>条件</strong>的串的方案数。则：<script type="math/tex">dp[i][j] = \sum_{k = 0}^{m - 1}dp[i - 1][k]*a[k][j]</script> $a[k][j]=$ 已经匹配了$k$位现在再加一个数字而能匹配$j$位的方案数。比如$B$串为$12315$，$a[1][1] = 1$就是$1 + ?$能与$12315$匹配$1$位的方案数是1的$?$的取值个数（$? = 1$)。这里讲的<strong>匹配</strong>是指$1?$的后缀与$12315$的前缀相同的串的长度。<script type="math/tex">a = 
+\begin{pmatrix}
+9 & 1 & 0 & 0 & 0 & 0 \\
+8 & 1 & 1 & 0 & 0 & 0 \\
+8 & 1 & 0 & 1 & 0 & 0 \\
+9 & 0 & 0 & 0 & 1 & 0 \\
+7 & 1 & 1 & 0 & 0 & 1 
+\end{pmatrix}</script>行代表$k$，列代表$j$。如何求出$a$数组？既然是在求公共的前缀和后缀，故联想到$KMP$的$Next$数组。具体做法见代码。观察上面的转移方程，系数都是常数且是一次方程，自然而然的转化为矩阵的乘积形式。<script type="math/tex">\begin{pmatrix}
+dp[i][0] & \dots & dp[i][m - 1] 
+\end{pmatrix}=
+\begin{pmatrix}
+dp[i - 1][0] & \dots & dp[i - 1][m - 1]
+\end{pmatrix}*
+\begin{pmatrix}
+9 & 1 & 0 & 0 & 0 \\
+8 & 1 & 1 & 0 & 0 \\
+8 & 1 & 0 & 1 & 0 \\
+9 & 0 & 0 & 0 & 1 \\
+7 & 1 & 1 & 0 & 0  
+\end{pmatrix}</script>因为是求不包含$B$串的A串个数，故$a$矩阵的最后一列应该忽略。</p>
 
           
         
