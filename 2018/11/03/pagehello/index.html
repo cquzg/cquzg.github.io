@@ -83,18 +83,18 @@
 
 
 
-<meta name="description" content="This is text!">
+<meta name="description" content="题意Bob有$N(1 \leq N \leq10000)$个点的树，每条边有一个边权$d(0\leq d \leq 233)$，现在定义$dis(i,j)$代表第$i$个点到第$j$个点的距离模2。问有多少$(i,j,k)$满足$dis(i,j) = dis(i,k) = dis(j,k)$。">
 <meta name="keywords" content="随笔">
 <meta property="og:type" content="article">
 <meta property="og:title" content="hello">
 <meta property="og:url" content="cquzg.github.io/2018/11/03/pagehello/index.html">
 <meta property="og:site_name" content="I Love You">
-<meta property="og:description" content="This is text!">
+<meta property="og:description" content="题意Bob有$N(1 \leq N \leq10000)$个点的树，每条边有一个边权$d(0\leq d \leq 233)$，现在定义$dis(i,j)$代表第$i$个点到第$j$个点的距离模2。问有多少$(i,j,k)$满足$dis(i,j) = dis(i,k) = dis(j,k)$。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-11-03T09:36:55.842Z">
+<meta property="og:updated_time" content="2018-11-06T05:04:18.744Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hello">
-<meta name="twitter:description" content="This is text!">
+<meta name="twitter:description" content="题意Bob有$N(1 \leq N \leq10000)$个点的树，每条边有一个边权$d(0\leq d \leq 233)$，现在定义$dis(i,j)$代表第$i$个点到第$j$个点的距离模2。问有多少$(i,j,k)$满足$dis(i,j) = dis(i,k) = dis(j,k)$。">
 
 
 
@@ -324,9 +324,11 @@
       
 
       
-        <p>This is text!</p>
+        <h3 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h3><p>Bob有$N(1 \leq N \leq10000)$个点的树，每条边有一个边权$d(0\leq d \leq 233)$，现在定义$dis(i,j)$代表第$i$个点到第$j$个点的距离模2。问有多少$(i,j,k)$满足$dis(i,j) = dis(i,k) = dis(j,k)$。</p>
 <a id="more"></a>
-<h1 id="感受"><a href="#感受" class="headerlink" title="感受"></a>感受</h1><script type="math/tex; mode=display">E = m^2</script>
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><p>首先，一棵树中不存在$(i,j,k)$，使得$dis(i,j) = dis(i,k) = dis(j,k) = 1$。随便选一个点为根，记$dis(root, u) = 0$的个数为$cnt_x$，$dis(root, u) = 1$的个数为$cnt_y$，那么满足$dis(i,j) = dis(i,k) = dis(j,k) = 0$的$(i, j,k)$个数为$cnt_x^3 + cnt_y^3$。注意$i = j = k$是合法的！</p>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N = <span class="number">10005</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> n, x, y;</span><br><span class="line"></span><br><span class="line"><span class="built_in">vector</span>&lt;P&gt; G[N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">DFS</span><span class="params">(<span class="keyword">int</span> u, <span class="keyword">int</span> p, <span class="keyword">int</span> deep)</span> </span>&#123;</span><br><span class="line">    (deep &amp; <span class="number">1</span>) ? ++x : ++y;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> v : G[u]) <span class="keyword">if</span> (v.first != p) DFS(v.first, u, deep + v.second);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">addedge</span><span class="params">(<span class="keyword">int</span> u, <span class="keyword">int</span> v, <span class="keyword">int</span> w)</span> </span>&#123;</span><br><span class="line">    G[u].pb(P(v, w));</span><br><span class="line">    G[v].pb(P(u, w));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">cin</span> &gt;&gt; n;</span><br><span class="line">    rep(i, <span class="number">1</span>, n) &#123;</span><br><span class="line">        <span class="keyword">int</span> u, v, w;</span><br><span class="line">        <span class="built_in">cin</span> &gt;&gt; u &gt;&gt; v &gt;&gt; w;</span><br><span class="line">        addedge(u, v, w);</span><br><span class="line">    &#125;</span><br><span class="line">    DFS(<span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="number">1l</span>l * x * x * x + <span class="number">1l</span>l * y * y * y &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
       
     </div>
     
@@ -485,7 +487,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#感受"><span class="nav-number">1.</span> <span class="nav-text">感受</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#题意"><span class="nav-number">1.</span> <span class="nav-text">题意</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#题解"><span class="nav-number">2.</span> <span class="nav-text">题解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码"><span class="nav-number">3.</span> <span class="nav-text">代码</span></a></li></ol></div>
             
 
           </div>
